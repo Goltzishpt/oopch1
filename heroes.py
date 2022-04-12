@@ -6,56 +6,60 @@
 # Измеряется длина списков солдат противоборствующих команд и выводится на экран. У героя, принадлежащего команде с более длинным списком, увеличивается уровень.
 # Отправьте одного из солдат первого героя следовать за ним. Выведите на экран идентификационные номера этих двух юнитов.
 
+# жизнь вносит свои коррективы, а я свои ПОТОМУ ЧТО Я НЕ ХОЧУ ВЫВОДИТЬ СКУЧНЫЙ АЙДИШНИК Я ХОЧУ ТИМУ
 
-from random import randint, choice
+
+from random import choice
 
 
-class Person:
+class Heroes:
+    id = 1  # уникальное айди героя
+
+    def __init__(self, team):
+        self.id = Heroes.id  # уникальное айди героя
+        Heroes.id += 1
+        self.level = 0  # уровень героя
+        self.team = team  # команда героя, выбор "свет" или "тьма"
+
+    def level_up(self):  # повышение уровня героя
+        self.level += 1
+        print(f'Hero {self.team} has {self.level} level')
+
+
+class Soldiers:
+    id = 1
+
     def __init__(self):
-        self.id = randint(0, 100)  # неуникальный номер объекта
+        self.id = Soldiers.id  # уникальный айди солдата
+        Soldiers.id += 1
+        self.team = choice(['radiant', 'dire'])  # рандомный выбор команды
 
-    def info(self):
-        infoList = [str(self.id)]  # сранный айдишник в виде листа переведенный в строку чтобы не было буилтинчетотам
-        return ''.join(infoList)
-
-
-class Heroes(Person):
-    def __init__(self):
-        super(Heroes, self).__init__()
-        self.level = 1
+    def go_to_hero(self, Heroes):  # просто солдат идет за героем
+        print(f'Soldier {Soldiers.id} go to hero {Heroes.id}')
 
 
-def selectTeam(self, team='pink'):  # выбор команды героя
-        select = input('Choose your team(0/1):')
-        if select == 1:
-            team = 'violet'
-        return team
+hero1 = Heroes('radiant')  # герой 1, команда света
+hero2 = Heroes('dire')  # герой 2, команда тьмы
 
-    def levelUp(self, teamSolid):
-        if self.teamSolid == 'pink':
-            self.level += 1
-        print(f'Герой {Heroes.info(self)} команда достиг уровня {self.level}')
+for round in range(10):  # в игре 10 раундов
+    soldiers_r = 0  # в начале раунда баллы по нулям
+    soldiers_d = 0
+    for choose in range(10):  # раунд начинается
+        row = Soldiers()  # создаем солдата
+        if row.team == 'radiant':  # если рандом выпал на свет +1 балл
+            soldiers_r += 1
+            row.go_to_hero(hero1)
+        else:  # если тьма
+            soldiers_d += 1
+            row.go_to_hero(hero2)
+    if soldiers_r > soldiers_d:  # подсчет баллов в конце раунда
+        hero1.level_up()
+    else:
+        hero2.level_up()
+    print('Round ended')
+    print()
 
-
-class Soldier(Person):
-    def __init__(self, pinkTeam=[], violetTeam=[]):
-        super(Soldier, self).__init__()
-        self.teamSold = choice(['pink', 'violet'])
-        if self.teamSold == 'pink':
-            pinkTeam.append(0)
-        else:
-            violetTeam.append(0)
-
-    def goToHero(self, Heroes):
-        print(f'Солдат № {Soldier.info(self)} из команды {self.teamSold} следует за героем № {Heroes.info()}.')
-
-
-hero1 = Heroes()
-hero2 = Heroes()
-
-soldiers = []
-for i in range(10):
-    soldiers.append(Soldier())
-
-for j in soldiers:
-    j.goToHero(choice([hero1, hero2]))
+if hero1.level > hero2.level:  # итог игры
+    print('Radiant is victory')
+else:
+    print('Dire is victory')
