@@ -25,10 +25,10 @@ class DigitIterator:
         return self
 
     def __next__(self):
-        if digit == []:
+        if self.digit == []:
             raise StopIteration
-        item = digit[0]
-        del digit[0]
+        item = self.digit[0]
+        del self.digit[0]
         return item
 
 kit = Digit(10)
